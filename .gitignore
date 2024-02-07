@@ -1,0 +1,6 @@
+# Nix
+result
+*.qcow2
+
+# Development
+.direnv
