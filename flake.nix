@@ -56,7 +56,11 @@
               name = "frc-nix";
               packages = with pkgs; [
                 nixos-generators
+
+                typst
               ];
+
+              TYPST_FONT_PATHS = nixpkgs.lib.strings.concatStringsSep ":" (with pkgs; [ montserrat cooper-hewitt libre-baskerville ]);
             };
           }))
     ];
