@@ -5,7 +5,7 @@ import os
 
 parser = argparse.ArgumentParser(description='Flash SD card with image')
 parser.add_argument("device", help="SD card device")
-parser.add_argument("--current", help="current image file to compare against")
+parser.add_argument("--current", default="default.current-sd", help="current image file to compare against")
 parser.add_argument("--block-size", type=int, default=4096, help="block size")
 
 args = parser.parse_args()
@@ -13,9 +13,11 @@ print(args)
 
 image = open("/dev/stdin", "rb") # image is streamed
 device = open(args.device, "r+b")
-current = open(args.current, "r+b") if args.current else None
+current = open(args.current, "r+b")
 
 device_mmap = mmap.mmap(device.fileno(), device.seek(0, os.SEEK_END))
+
+os.ftruncate(current.fileno(), device_mmap.size())
 current_mmap = mmap.mmap(current.fileno(), 0) if args.current else None
 
 print("Flashing to", args.device, "with block size", args.block_size)
