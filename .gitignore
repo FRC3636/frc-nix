@@ -1,6 +1,9 @@
-# Nix
+# Nix/NixOS
 result
 *.qcow2
 
 # Development
 .direnv
+
+# Current SD Contents
+*.current-sd
