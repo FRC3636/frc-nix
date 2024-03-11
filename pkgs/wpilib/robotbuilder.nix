@@ -23,4 +23,10 @@ stdenv.mkDerivation rec {
 
     runHook postInstall
   '';
+
+  meta = with lib; {
+    description = "An application which generates FRC robot code";
+    license = licenses.bsd3;
+    maintainers = with maintainers; [ max-niederman ];
+  };
 }
