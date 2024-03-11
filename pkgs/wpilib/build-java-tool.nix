@@ -1,37 +1,38 @@
 { lib, stdenv, runCommand, fetchurl, unzip, makeWrapper, temurin-jre-bin-17, libgcc, libGL, xorg, gtk2 }:
 
-{ pname, artifacts, extraLibs ? [], ... } @ args:
+{ pname, artifacts, extraLibs ? [ ], ... } @ args:
 let
-  wpilibSystem = let
-    linuxarm32 = {
-      os = "linux";
-      arch = "arm32";
-    };
-    linuxarm64 = {
-      os = "linux";
-      arch = "arm64";
-    };
-    linuxx64 = {
-      os = "linux";
-      arch = "x64";
-    };
-    macarm64 = {
-      os = "mac";
-      arch = "arm64";
-    };
-    macx64 = {
-      os = "mac";
-      arch = "x64";
-    };
-  in
-  {
-    x86_64-linux = linuxx64;
-    aarch64-linux = linuxarm64;
-    armv7l-linux = linuxarm32;
-    armv6l-linux = linuxarm32;
-    x86_64-darwin = macx64;
-    aarch64-darwin = macarm64;
-  }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+  wpilibSystem =
+    let
+      linuxarm32 = {
+        os = "linux";
+        arch = "arm32";
+      };
+      linuxarm64 = {
+        os = "linux";
+        arch = "arm64";
+      };
+      linuxx64 = {
+        os = "linux";
+        arch = "x64";
+      };
+      macarm64 = {
+        os = "mac";
+        arch = "arm64";
+      };
+      macx64 = {
+        os = "mac";
+        arch = "x64";
+      };
+    in
+      {
+        x86_64-linux = linuxx64;
+        aarch64-linux = linuxarm64;
+        armv7l-linux = linuxarm32;
+        armv6l-linux = linuxarm32;
+        x86_64-darwin = macx64;
+        aarch64-darwin = macarm64;
+      }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
   libraryPath = lib.makeLibraryPath (
     [
@@ -66,7 +67,7 @@ stdenv.mkDerivation ({
 
     runHook postInstall
   '';
-  
+
   meta = (with lib; {
     platforms = [ "x86_64-linux" "aarch64-linux" "armv7l-linux" "armv6l-linux" "x86_64-darwin" "aarch64-darwin" ];
     license = licenses.bsd3;
