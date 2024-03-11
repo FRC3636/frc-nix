@@ -20,7 +20,7 @@ in
         description = lib.mdDoc ''
           Whether to open the required firewall ports in the firewall.
         '';
-        default = false;
+        default = true;
         type = lib.types.bool;
       };
     };
