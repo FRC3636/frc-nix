@@ -9,6 +9,9 @@
   outputs = inputs @ { self, flake-utils, nixpkgs }:
     let
       frcOverlay = final: prev: with final; {
+        advantagescope = callPackage ./pkgs/advantagescope { };
+        choreo = callPackage ./pkgs/choreo { };
+        pathplanner = callPackage ./pkgs/pathplanner { };
         photonvision = callPackage ./pkgs/photonvision { };
         wpilib = recurseIntoAttrs (callPackage ./pkgs/wpilib { });
       };
@@ -23,6 +26,9 @@
         let pkgs = import nixpkgs { inherit system; overlays = [ frcOverlay ]; }; in {
           packages = {
             inherit (pkgs)
+              advantagescope
+              choreo
+              pathplanner
               photonvision
               wpilib;
           };
