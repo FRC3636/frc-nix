@@ -8,8 +8,9 @@
 
   outputs = inputs @ { self, flake-utils, nixpkgs }:
     let
-      frcOverlay = final: prev: {
-        photonvision = final.callPackage ./pkgs/photonvision { };
+      frcOverlay = final: prev: with final; {
+        photonvision = callPackage ./pkgs/photonvision { };
+        wpilib = recurseIntoAttrs (callPackage ./pkgs/wpilib { });
       };
     in
     {
@@ -21,12 +22,17 @@
       (system:
         let pkgs = import nixpkgs { inherit system; overlays = [ frcOverlay ]; }; in {
           packages = {
-            inherit (pkgs) photonvision;
+            inherit (pkgs)
+              photonvision
+              wpilib;
           };
 
           devShell = pkgs.mkShell {
             name = "frc-nix";
             packages = with pkgs; [
+              nushell
+              xxd
+
               nixos-generators
 
               typst
