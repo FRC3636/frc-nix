@@ -94,4 +94,4 @@ stdenv.mkDerivation ({
     license = licenses.bsd3;
     maintainers = with maintainers; [ max-niederman ];
   } // args.meta or { });
-} // removeAttrs args [ "name" "artifactHashes" "extraLibs" ])
+} // removeAttrs args [ "name" "artifactHashes" "extraLibs" "meta" ])

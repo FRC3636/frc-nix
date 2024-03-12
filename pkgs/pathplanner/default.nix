@@ -36,6 +36,7 @@ flutter.buildFlutterApplication rec {
     description = "An autonomous path planning tool for FIRST Robotics Competition teams";
     homepage = "https://pathplanner.dev";
     license = licenses.mit;
+    platforms = platforms.all;
     maintainers = with lib.maintainers; [ max-niederman ];
   };
 }

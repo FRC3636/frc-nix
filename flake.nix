@@ -32,24 +32,30 @@
     //
     (flake-utils.lib.eachSystem supportedSystems
       (system:
-        let pkgs = import nixpkgs { inherit system; overlays = [ frcOverlay ]; }; in {
-          packages = {
-            inherit (pkgs)
-              advantagescope
-              choreo
-              pathplanner
-              photonvision;
-            inherit (pkgs.wpilib)
-              datalogtool
-              glass
-              outlineviewer
-              pathweaver
-              roborioteamnumbersetter
-              robotbuilder
-              shuffleboard
-              smartdashboard
-              sysid;
-          };
+        let
+          pkgs = import nixpkgs { inherit system; overlays = [ frcOverlay ]; };
+          inherit (pkgs) lib;
+        in
+        {
+          packages = lib.attrsets.filterAttrs
+            (_: pkg: builtins.elem system pkg.meta.platforms)
+            {
+              inherit (pkgs)
+                advantagescope
+                choreo
+                pathplanner
+                photonvision;
+              inherit (pkgs.wpilib)
+                datalogtool
+                glass
+                outlineviewer
+                pathweaver
+                roborioteamnumbersetter
+                robotbuilder
+                shuffleboard
+                smartdashboard
+                sysid;
+            };
 
           devShell = pkgs.mkShell {
             name = "frc-nix";

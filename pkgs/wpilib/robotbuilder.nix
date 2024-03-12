@@ -28,5 +28,6 @@ stdenv.mkDerivation rec {
     description = "An application which generates FRC robot code";
     license = licenses.bsd3;
     maintainers = with maintainers; [ max-niederman ];
+    platforms = platforms.all;
   };
 }

@@ -7,7 +7,6 @@
 , makeWrapper
 , copyDesktopItems
 , makeDesktopItem
-, libgcc
 , libGL
 , xorg
 }:
@@ -53,7 +52,6 @@ let
 
   libraryPath = lib.makeLibraryPath (
     [
-      libgcc.lib
       libGL
       xorg.libX11
     ] ++ extraLibs
@@ -112,4 +110,4 @@ stdenv.mkDerivation ({
     license = licenses.bsd3;
     maintainers = with maintainers; [ max-niederman ];
   } // meta);
-} // removeAttrs args [ "name" "artifactHashes" "extraLibs" ])
+} // removeAttrs args [ "name" "artifactHashes" "extraLibs" "meta" ])
