@@ -7,6 +7,7 @@
 , makeWrapper
 , copyDesktopItems
 , makeDesktopItem
+, libgcc
 , libGL
 , xorg
 }:
@@ -54,7 +55,9 @@ let
     [
       libGL
       xorg.libX11
-    ] ++ extraLibs
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [ libgcc.lib ]
+    ++ extraLibs
   );
 
   mainProgram = args.meta.mainProgram or pname;
