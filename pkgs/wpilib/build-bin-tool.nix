@@ -51,6 +51,12 @@ let
         aarch64-darwin = osxuniversal;
       }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
+  libraries = [
+    stdenv.cc.cc
+    libGL
+    xorg.libX11
+  ] ++ extraLibs;
+
   mainProgram = args.meta.mainProgram or pname;
 in
 stdenv.mkDerivation ({
@@ -67,11 +73,8 @@ stdenv.mkDerivation ({
     unzip
   ];
 
-  buildInputs = [ stdenv.cc.cc ];
-  runtimeDependencies = [
-    libGL
-    xorg.libX11
-  ] ++ extraLibs;
+  buildInputs = libraries;
+  runtimeDependencies = libraries;
 
   unpackPhase = ''
     runHook preUnpack
