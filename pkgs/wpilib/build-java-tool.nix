@@ -6,7 +6,6 @@
 , unzip
 , makeWrapper
 , temurin-jre-bin-17
-, libgcc
 , libGL
 , xorg
 , gtk2
@@ -57,12 +56,12 @@ let
 
   libraryPath = lib.makeLibraryPath (
     [
+      stdenv.cc.cc
       libGL
       xorg.libX11
       xorg.libXtst
       gtk2
     ]
-    ++ lib.optionals stdenv.hostPlatform.isLinux [ libgcc.lib ]
     ++ extraLibs
   );
 in

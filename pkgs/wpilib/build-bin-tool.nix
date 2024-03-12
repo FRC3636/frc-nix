@@ -4,12 +4,12 @@
 , runCommand
 , fetchurl
 , unzip
-, makeWrapper
+, autoPatchelfHook
 , copyDesktopItems
 , makeDesktopItem
-, libgcc
 , libGL
 , xorg
+, gnome
 }:
 
 { name
@@ -51,15 +51,6 @@ let
         aarch64-darwin = osxuniversal;
       }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
 
-  libraryPath = lib.makeLibraryPath (
-    [
-      libGL
-      xorg.libX11
-    ]
-    ++ lib.optionals stdenv.hostPlatform.isLinux [ libgcc.lib ]
-    ++ extraLibs
-  );
-
   mainProgram = args.meta.mainProgram or pname;
 in
 stdenv.mkDerivation ({
@@ -70,7 +61,17 @@ stdenv.mkDerivation ({
     hash = artifactHashes."${wpilibSystem.os}${wpilibSystem.arch}" or (throw "No hash for ${wpilibSystem.os}${wpilibSystem.arch}");
   };
 
-  nativeBuildInputs = [ makeWrapper copyDesktopItems unzip ];
+  nativeBuildInputs = [
+    autoPatchelfHook
+    copyDesktopItems
+    unzip
+  ];
+
+  buildInputs = [ stdenv.cc.cc ];
+  runtimeDependencies = [
+    libGL
+    xorg.libX11
+  ] ++ extraLibs;
 
   unpackPhase = ''
     runHook preUnpack
@@ -83,17 +84,9 @@ stdenv.mkDerivation ({
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/bin
+    install -Dm 755 ${wpilibSystem.os}/${wpilibSystem.arch}/${mainProgram} $out/bin/${mainProgram}
 
-    for file in ${wpilibSystem.os}/${wpilibSystem.arch}/*; do
-      if [ -f $file ]; then
-        install -m 755 $file $out/bin/$(basename $file)
-        wrapProgram $out/bin/$(basename $file) \
-          --prefix LD_LIBRARY_PATH : "${libraryPath}"
-      fi
-    done
-
-    install -D ${iconPng} $out/share/pixmaps/${name}.png
+    install -Dm 555 ${iconPng} $out/share/pixmaps/${name}.png
 
     runHook postInstall
   '';
