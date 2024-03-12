@@ -1,7 +1,28 @@
-{ lib, stdenv, runCommand, fetchurl, unzip, makeWrapper, libgcc, libGL, xorg }:
+{ lib
+, allwpilibSources
+, stdenv
+, runCommand
+, fetchurl
+, unzip
+, makeWrapper
+, copyDesktopItems
+, makeDesktopItem
+, libgcc
+, libGL
+, xorg
+}:
 
-{ artifacts, extraLibs ? [ ], ... } @ args:
+{ name
+, pname ? lib.strings.toLower name
+, artifactHashes
+, iconPng ? null
+, extraLibs ? [ ]
+, meta ? { }
+, ...
+} @ args:
 let
+  inherit (allwpilibSources) version;
+
   wpilibSystem =
     let
       linuxarm32 = {
@@ -37,16 +58,18 @@ let
       xorg.libX11
     ] ++ extraLibs
   );
+
+  mainProgram = args.meta.mainProgram or pname;
 in
 stdenv.mkDerivation ({
+  inherit version;
+
   src = fetchurl {
-    url = artifacts.url {
-      inherit (wpilibSystem) os arch;
-    };
-    hash = artifacts.hashes."${wpilibSystem.os}${wpilibSystem.arch}" or (throw "No hash for ${wpilibSystem.os}${wpilibSystem.arch}");
+    url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/tools/${name}/${version}/${name}-${version}-${wpilibSystem.os}${wpilibSystem.arch}.zip";
+    hash = artifactHashes."${wpilibSystem.os}${wpilibSystem.arch}" or (throw "No hash for ${wpilibSystem.os}${wpilibSystem.arch}");
   };
 
-  nativeBuildInputs = [ unzip makeWrapper ];
+  nativeBuildInputs = [ makeWrapper copyDesktopItems unzip ];
 
   unpackPhase = ''
     runHook preUnpack
@@ -69,12 +92,24 @@ stdenv.mkDerivation ({
       fi
     done
 
+    install -D ${iconPng} $out/share/pixmaps/${name}.png
+
     runHook postInstall
   '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      inherit name;
+      desktopName = name;
+      exec = mainProgram;
+      comment = meta.description or null;
+      icon = if iconPng != null then name else null;
+    })
+  ];
 
   meta = (with lib; {
     platforms = [ "x86_64-linux" "aarch64-linux" "armv7l-linux" "armv6l-linux" "x86_64-darwin" "aarch64-darwin" ];
     license = licenses.bsd3;
     maintainers = with maintainers; [ max-niederman ];
-  } // args.meta or { });
-} // removeAttrs args [ "artifacts" "extraLibs" ])
+  } // meta);
+} // removeAttrs args [ "name" "artifactHashes" "extraLibs" ])

@@ -1,4 +1,4 @@
-{ buildJavaTool }:
+{ buildJavaTool, allwpilibSources }:
 
 buildJavaTool rec {
   pname = "pathweaver";

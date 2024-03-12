@@ -1,7 +1,28 @@
-{ lib, stdenv, runCommand, fetchurl, unzip, makeWrapper, temurin-jre-bin-17, libgcc, libGL, xorg, gtk2 }:
+{ lib
+, allwpilibSources
+, stdenv
+, runCommand
+, fetchurl
+, unzip
+, makeWrapper
+, temurin-jre-bin-17
+, libgcc
+, libGL
+, xorg
+, gtk2
+}:
 
-{ pname, artifacts, extraLibs ? [ ], ... } @ args:
+{ name
+, pname ? lib.strings.toLower name
+, artifactHashes
+, iconPng ? null
+, extraLibs ? [ ]
+, meta ? { }
+, ...
+} @ args:
 let
+  inherit (allwpilibSources) version;
+
   wpilibSystem =
     let
       linuxarm32 = {
@@ -45,11 +66,11 @@ let
   );
 in
 stdenv.mkDerivation ({
+  inherit version;
+
   src = fetchurl {
-    url = artifacts.url {
-      inherit (wpilibSystem) os arch;
-    };
-    hash = artifacts.hashes."${wpilibSystem.os}${wpilibSystem.arch}" or (throw "No hash for ${wpilibSystem.os}${wpilibSystem.arch}");
+    url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/tools/${name}/${version}/${name}-${version}-${wpilibSystem.os}${wpilibSystem.arch}.jar";
+    hash = artifactHashes."${wpilibSystem.os}${wpilibSystem.arch}" or (throw "No hash for ${wpilibSystem.os}${wpilibSystem.arch}");
   };
 
   dontUnpack = true;
@@ -73,4 +94,4 @@ stdenv.mkDerivation ({
     license = licenses.bsd3;
     maintainers = with maintainers; [ max-niederman ];
   } // args.meta or { });
-} // removeAttrs args [ "artifacts" "extraLibs" ])
+} // removeAttrs args [ "name" "artifactHashes" "extraLibs" ])

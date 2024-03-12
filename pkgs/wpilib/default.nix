@@ -1,6 +1,15 @@
-{ pkgs, lib }:
+{ pkgs, lib, fetchFromGitHub }:
 
 lib.makeScope pkgs.newScope (self: with self; {
+  allwpilibSources = fetchFromGitHub rec {
+    passthru.version = "2024.3.1";
+
+    owner = "wpilibsuite";
+    repo = "allwpilib";
+    rev = "v${passthru.version}";
+    hash = "sha256-H/dMLI2wOiJ+/Z8//Q7QzAFc51dZ3L16evLJI1UaS8c=";
+  };
+
   buildBinTool = callPackage ./build-bin-tool.nix { };
   buildJavaTool = callPackage ./build-java-tool.nix { };
 
