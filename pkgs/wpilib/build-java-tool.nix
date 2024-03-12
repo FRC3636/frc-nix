@@ -57,12 +57,13 @@ let
 
   libraryPath = lib.makeLibraryPath (
     [
-      libgcc.lib
       libGL
       xorg.libX11
       xorg.libXtst
       gtk2
-    ] ++ extraLibs
+    ]
+    ++ lib.optionals stdenv.hostPlatform.isLinux [ libgcc.lib ]
+    ++ extraLibs
   );
 in
 stdenv.mkDerivation ({
