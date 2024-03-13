@@ -9,12 +9,15 @@
 , libGL
 , xorg
 , gtk2
+, copyDesktopItems
+, makeDesktopItem
 }:
 
 { name
 , pname ? lib.strings.toLower name
 , artifactHashes
 , iconPng ? null
+, iconSvg ? null
 , extraLibs ? [ ]
 , meta ? { }
 , ...
@@ -75,7 +78,10 @@ stdenv.mkDerivation ({
 
   dontUnpack = true;
 
-  nativeBuildInputs = [ makeWrapper ];
+  nativeBuildInputs = [
+    makeWrapper
+    copyDesktopItems
+  ];
 
   installPhase = ''
     runHook preInstall
@@ -86,8 +92,21 @@ stdenv.mkDerivation ({
       --prefix LD_LIBRARY_PATH : "${libraryPath}" \
       --add-flags "-jar $out/lib/${pname}.jar"
 
+    ${lib.strings.optionalString (iconPng != null) "install -Dm 555 ${iconPng} $out/share/pixmaps/${name}.png"}
+    ${lib.strings.optionalString (iconSvg != null) "install -Dm 555 ${iconSvg} $out/share/icons/hicolor/scalable/apps/${name}.svg"}
+
     runHook postInstall
   '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      inherit name;
+      desktopName = name;
+      exec = pname;
+      comment = meta.description or null;
+      icon = if iconPng != null || iconSvg != null then name else null;
+    })
+  ];
 
   meta = (with lib; {
     platforms = [ "x86_64-linux" "aarch64-linux" "armv7l-linux" "armv6l-linux" "x86_64-darwin" "aarch64-darwin" ];

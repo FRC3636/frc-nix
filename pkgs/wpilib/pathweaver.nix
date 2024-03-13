@@ -13,6 +13,8 @@ buildJavaTool {
     macx64 = "sha256-N5BRM4sKx3EaVMKm/9PZUDNnwTuuBnYHkOrsPHfXams=";
   };
 
+  iconSvg = ./wpilib_logo.svg;
+
   meta = {
     description = "A trajectory generation suite that for FRC teams to generate and follow trajectories";
   };

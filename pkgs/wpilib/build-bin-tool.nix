@@ -16,6 +16,7 @@
 , pname ? lib.strings.toLower name
 , artifactHashes
 , iconPng ? null
+, iconSvg ? null
 , extraLibs ? [ ]
 , meta ? { }
 , ...
@@ -84,12 +85,13 @@ stdenv.mkDerivation ({
     runHook postUnpack
   '';
 
-  installPhase = ''
+  installPhase = with lib.strings; ''
     runHook preInstall
 
     install -Dm 755 ${wpilibSystem.os}/${wpilibSystem.arch}/${mainProgram} $out/bin/${mainProgram}
 
-    install -Dm 555 ${iconPng} $out/share/pixmaps/${name}.png
+    ${optionalString (iconPng != null) "install -Dm 555 ${iconPng} $out/share/pixmaps/${name}.png"}
+    ${optionalString (iconSvg != null) "install -Dm 555 ${iconSvg} $out/share/icons/hicolor/scalable/apps/${name}.svg"}
 
     runHook postInstall
   '';
@@ -100,7 +102,7 @@ stdenv.mkDerivation ({
       desktopName = name;
       exec = mainProgram;
       comment = meta.description or null;
-      icon = if iconPng != null then name else null;
+      icon = if iconPng != null || iconSvg != null then name else null;
     })
   ];
 

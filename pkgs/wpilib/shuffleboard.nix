@@ -13,6 +13,8 @@ buildJavaTool {
     linuxarm32 = "sha256-Lh49scOOkWwpR4P2W8ttLpIyK2savKn5b+pZcFKiLyc=";
   };
 
+  iconSvg = ./wpilib_logo.svg;
+
   meta = {
     description = "A straightforward, customizable driveteam-focused dashboard for FRC";
   };
