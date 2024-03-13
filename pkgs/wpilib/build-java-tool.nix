@@ -83,7 +83,7 @@ stdenv.mkDerivation ({
     copyDesktopItems
   ];
 
-  installPhase = ''
+  installPhase = with lib.strings; ''
     runHook preInstall
 
     mkdir -p $out/lib
@@ -92,8 +92,8 @@ stdenv.mkDerivation ({
       --prefix LD_LIBRARY_PATH : "${libraryPath}" \
       --add-flags "-jar $out/lib/${pname}.jar"
 
-    ${lib.strings.optionalString (iconPng != null) "install -Dm 555 ${iconPng} $out/share/pixmaps/${name}.png"}
-    ${lib.strings.optionalString (iconSvg != null) "install -Dm 555 ${iconSvg} $out/share/icons/hicolor/scalable/apps/${name}.svg"}
+    ${optionalString (iconPng != null) "install -Dm 555 ${iconPng} $out/share/pixmaps/${name}.png"}
+    ${optionalString (iconSvg != null) "install -Dm 555 ${iconSvg} $out/share/icons/hicolor/scalable/apps/${name}.svg"}
 
     runHook postInstall
   '';
