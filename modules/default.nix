@@ -3,6 +3,7 @@
 
 {
   imports = [
+    ./administration.nix
     ./networking.nix
     ./services/photonvision.nix
   ];
