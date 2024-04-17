@@ -56,9 +56,9 @@ Furthermore, the ability to generate VM images which behave exactly like physica
 
 Fourth, there exists a rich ecosystem of packages and deployment tools for NixOS. Nixpkgs, NixOS's package repository, is the most comprehensive package repository in existence,
 #footnote[As of writing, according to #link("https://repology.org/repositories/statistics/newest")[Repology's statistics.]]
-and NixOS comes built-in with tens of thousands of configuration options. Team 3636 is working on merging FRC software into NixOS, which will *make installing FRC software as easy as adding a line to a configuration file*.
+and NixOS comes built-in with tens of thousands of configuration options. Team 3636 has packaged a large variety of FRC software for Nix and NixOS, which *makes installing FRC software as easy as adding a line to a configuration file*.
 
-#figure(caption: [Enabling PhotonVision using 3636's NixOS modules.])[
+#figure(caption: [Installing and daemonizing PhotonVision on a NixOS system.])[
   ```nix
   {
     services.photonvision = {
@@ -71,9 +71,8 @@ and NixOS comes built-in with tens of thousands of configuration options. Team 3
   ```
 ]
 
-Similarly, NixOS-based deployment tools like #link("https://github.com/NixOS/nixops")[NixOps] and #link("https://github.com/zhaofengli/colmena")[Colmena] simplify and automate the process of deploying to dozens of coprocessors. They also make it easy to build the system configurations on an Internet-connected machine and then deploy later, mitigating the lack of Internet connection on coprocessors and allowing teams to *update and install software on coprocessors without ever disconnecting them from the robot network*.
+Similarly, NixOS-based deployment tools like #link("https://github.com/NixOS/nixops")[NixOps] and #link("https://github.com/zhaofengli/colmena")[Colmena] simplify and automate the process of deploying to large numbers of coprocessors. They also make it easy to build the system configurations on an Internet-connected machine and then deploy later, mitigating the lack of Internet connection on coprocessors and allowing teams to *update and install software on coprocessors without ever disconnecting them from the robot network*.
 
-
-= Drawbacks
+= A NixOS Distribution for FRC
 
 TODO
