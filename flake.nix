@@ -54,6 +54,23 @@
                 shuffleboard
                 smartdashboard
                 sysid;
+
+              frc-nix-whitepaper =
+                pkgs.runCommandNoCC
+                  "nixos-on-frc-robots"
+                  {
+                    buildInputs = with pkgs; [ typst source-serif ];
+                    TYPST_FONT_PATHS = nixpkgs.lib.strings.concatStringsSep ":" (with pkgs; [ montserrat libre-baskerville ]);
+
+                    meta.platforms = lib.platforms.all;
+                  }
+                  ''
+                    mkdir $out
+                    typst compile \
+                      --root ${./whitepaper} \
+                      ${./whitepaper}/nixos-on-frc-robots.typ \
+                      $out/nixos-on-frc-robots.pdf
+                  '';
             };
 
           devShell = pkgs.mkShell {
