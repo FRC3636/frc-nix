@@ -75,4 +75,34 @@ Similarly, NixOS-based deployment tools like #link("https://github.com/NixOS/nix
 
 = A NixOS Distribution for FRC
 
-TODO
+FRC teams use a lot of specialty software (WPILib, PathPlanner, Choreo, PhotonVision, etc.), which isn't available in most distributions.
+For NixOS, we've worked to package a large selection of FRC software
+and upstream it into Nixpkgs.
+In the meantime, we're maintaining these packages in #link("https://github.com/FRC3636/frc-nix")[an FRC-specific package repository].
+
+Currently, we support the following software on Linux and Darwin platforms with 64-bit x86 or ARM architectures:
+
+#table(
+  columns: (auto, auto, auto),
+  [Software], [Package], [NixOS Module],
+  [PhotonVision], [#emoji.snowflake (upstream)], [#emoji.snowflake (upstream)],
+  [AdvantageScope], [#sym.checkmark (in frc-nix)], [N/A],
+  [Choreo], [#sym.checkmark (in frc-nix)], [N/A], 
+  [PathPlanner], [#sym.checkmark (in frc-nix)], [N/A], 
+  [PPLibCoprocessor], [Planned], [Planned],
+  [Glass], [#sym.checkmark (in frc-nix)], [N/A], 
+  [Shuffleboard], [#sym.checkmark (in frc-nix)], [N/A], 
+  [SmartDashboard], [#sym.checkmark (in frc-nix)], [N/A], 
+  [DataLogTool], [#sym.checkmark (in frc-nix)], [N/A], 
+  [RoboRIOTeamNumberSetter], [#sym.checkmark (in frc-nix)], [N/A], 
+  [SysID], [#sym.checkmark (in frc-nix)], [N/A], 
+  [OutlineViewer], [#sym.checkmark (in frc-nix)], [N/A], 
+  [PathWeaver], [#sym.checkmark (in frc-nix)], [N/A], 
+  [RobotBuilder], [#sym.checkmark (in frc-nix)], [N/A], 
+)
+
+The distribution also contains tools for
+configuring networking settings for typical FRC use, 
+generating installer ISOs,
+commonly-used administration tools,
+and more.
