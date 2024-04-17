@@ -8,18 +8,16 @@
   outputs = { self, frc-nix, nixpkgs, flake-utils, ... }:
     {
       nixosConfigurations = {
-        orangepi5 = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
+        mini-pc = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
           modules = [
             frc-nix.nixosModules.default
 
             ({ modulesPath, ... }: {
-              imports = [
-                "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
-              ];
+              services.photonvision.enable = true;
 
               networking = {
-                hostName = "orangepi-5";
+                hostName = "mini-pc";
 
                 frc = {
                   enable = true;
@@ -48,7 +46,6 @@
           name = "frc-nix-example";
 
           packages = with pkgs; [
-            colmena # used to deploy the configurations
             nixos-generators # swiss army knife of formats which can be generated from NixOS configurations
           ];
         };
