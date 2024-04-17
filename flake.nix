@@ -12,7 +12,6 @@
         advantagescope = callPackage ./pkgs/advantagescope { };
         choreo = callPackage ./pkgs/choreo { };
         pathplanner = callPackage ./pkgs/pathplanner { };
-        photonvision = callPackage ./pkgs/photonvision { };
         wpilib = recurseIntoAttrs (callPackage ./pkgs/wpilib { });
       };
 
