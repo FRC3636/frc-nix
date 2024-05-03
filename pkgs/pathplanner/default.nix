@@ -1,42 +1,58 @@
-{ lib, fetchFromGitHub, stdenv, flutter, makeDesktopItem, pkg-config, util-linux }:
-
-let
-  desktopItem = makeDesktopItem {
-    type = "Application";
-    name = "PathPlanner";
-    desktopName = "PathPlanner";
-    comment = "An autonomous path planning tool for FIRST Robotics Competition teams";
-    icon = "pathplanner";
-    exec = "pathplanner %u";
-  };
-in
+{
+  lib,
+  flutter,
+  fetchFromGitHub,
+  copyDesktopItems,
+  stdenv,
+  libuuid,
+  makeDesktopItem,
+}:
 flutter.buildFlutterApplication rec {
   pname = "pathplanner";
-  version = "2024.1.4";
+  version = "2024.1.7";
 
   src = fetchFromGitHub {
     owner = "mjansen4857";
-    repo = "pathplanner";
-    rev = "v${version}";
-    hash = "sha256-ILERA6iUwKJRi3xCUliEFSHJmL+3ojjMyh+QUzpjuzk=";
+    repo = pname;
+    rev = version;
+    hash = "sha256-A8HGBpkO4xmUoWS5+Fz5IO81/G0NKI0pIemDgUFN9SY=";
   };
 
-  nativeBuildInputs = [ pkg-config ];
-  buildInputs = lib.optionals stdenv.isLinux [ util-linux.lib ];
-
   pubspecLock = lib.importJSON ./pubspec.lock.json;
-  vendorHash = "sha256-ILERA6iUwKJRi3xCUliEFSHJmL+3ojjMyh+QUzpjuzk=";
 
-  postInstall = ''
-    install -Dm444 "${desktopItem}/share/applications/"* -t $out/share/applications/
-    install -Dm444 ${src}/images/icon.png $out/share/pixmaps/pathplanner.png
+  nativeBuildInputs = [copyDesktopItems];
+
+  # libblkid on Linux
+  buildInputs = lib.optionals stdenv.isLinux [libuuid];
+
+  postUnpack = ''
+    # Make the version shown in the GUI match the actual version instead of "0.0.0"
+    substituteInPlace source/pubspec.yaml \
+      --replace "version: 0.0.0+1" "version: ${version}"
   '';
 
+  postInstall = ''
+    install -Dm444 "${src}"/images/icon.png "$out"/share/pixmaps/${pname}.png
+  '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      desktopName = "PathPlanner";
+      name = pname;
+      exec = pname;
+      icon = pname;
+      comment = meta.description;
+      categories = ["Development"];
+      keywords = ["FRC" "Motion Profile" "Path Planning"];
+    })
+  ];
+
   meta = with lib; {
-    description = "An autonomous path planning tool for FIRST Robotics Competition teams";
+    mainProgram = pname;
+    description = "A simple yet powerful motion profile generator for FRC robots";
     homepage = "https://pathplanner.dev";
     license = licenses.mit;
     platforms = platforms.all;
-    maintainers = with lib.maintainers; [ max-niederman ];
+    maintainers = with maintainers; [max-niederman];
   };
 }
