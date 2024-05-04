@@ -11,6 +11,7 @@
       frcOverlay = final: prev: with final; {
         advantagescope = callPackage ./pkgs/advantagescope { };
         choreo = callPackage ./pkgs/choreo { };
+        elastic-dashboard = callPackage ./pkgs/elastic-dashboard { };
         pathplanner = callPackage ./pkgs/pathplanner { };
         wpilib = recurseIntoAttrs (callPackage ./pkgs/wpilib { });
       };
@@ -42,6 +43,7 @@
               inherit (pkgs)
                 advantagescope
                 choreo
+                elastic-dashboard
                 pathplanner
                 photonvision;
               inherit (pkgs.wpilib)
