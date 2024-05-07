@@ -38,7 +38,7 @@ appimageTools.wrapType2 {
   '';
 
   meta = with lib; {
-    description = "AdvantageScope is a robot diagnostics, log review/analysis, and data visualization application for FIRST Robotics Competition teams";
+    description = "A robot diagnostics, log review/analysis, and data visualization application for FIRST Robotics Competition teams";
     homepage = "https://github.com/Mechanical-Advantage/AdvantageScope";
     license = licenses.mit;
     mainProgram = "advantagescope";

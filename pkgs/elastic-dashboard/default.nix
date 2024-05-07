@@ -42,7 +42,7 @@ flutter.buildFlutterApplication rec {
 
   meta = with lib; {
     mainProgram = "elastic_dashboard";
-    description = "A simple and modern dashboard for FRC ";
+    description = "A simple and modern dashboard for FRC";
     homepage = "https://github.com/Gold872/elastic-dashboard";
     license = licenses.mit;
     platforms = platforms.all;
