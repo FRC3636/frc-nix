@@ -1,9 +1,9 @@
-{
-  lib,
-  flutter,
-  fetchFromGitHub,
-  copyDesktopItems,
-  makeDesktopItem,
+{ lib
+, flutter
+, fetchFromGitHub
+, copyDesktopItems
+, makeDesktopItem
+,
 }:
 flutter.buildFlutterApplication rec {
   pname = "elastic-dashboard";
@@ -18,7 +18,7 @@ flutter.buildFlutterApplication rec {
 
   pubspecLock = lib.importJSON ./pubspec.lock.json;
 
-  nativeBuildInputs = [copyDesktopItems];
+  nativeBuildInputs = [ copyDesktopItems ];
 
   # Get everything out of $out/app to avoid conflicts with other flutter packages
   postInstall = ''
@@ -35,8 +35,8 @@ flutter.buildFlutterApplication rec {
       exec = "elastic_dashboard";
       icon = pname;
       comment = meta.description;
-      categories = ["Development"];
-      keywords = ["FRC" "Dashboard"];
+      categories = [ "Development" ];
+      keywords = [ "FRC" "Dashboard" ];
     })
   ];
 
