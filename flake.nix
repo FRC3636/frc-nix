@@ -75,6 +75,8 @@
                   '';
             };
 
+          formatter = pkgs.nixpkgs-fmt;
+
           devShell = pkgs.mkShell {
             name = "frc-nix";
             packages = with pkgs; [
