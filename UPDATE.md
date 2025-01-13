@@ -48,3 +48,28 @@ nix-prefetch --option extra-experimental-features flakes 'fetchurl {
   }'
 ```
 3. Update the `icon.hash` and `appimageTools.wrapType2.hash` attributes in `pkgs/choreo/default.nix` to the new hashes.
+
+# AdvantageScope
+
+This one is also an appimage but it has multiple appimages for different platforms.
+
+1. Bump the version in `pkgs/advantagescope/default.nix` to the new version which can be found [here](https://github.com/Mechanical-Advantage/AdvantageScope/releases/latest).
+2. Fetch the hashes for the x86_64-linux and aarch64-linux appimages as well as the icon.
+```bash
+nix-prefetch --option extra-experimental-features flakes 'fetchurl {
+      url = "https://github.com/Mechanical-Advantage/AdvantageScope/releases/download/v4.1.1/advantagescope-linux-x64-v4.1.1.AppImage";
+      hash = "sha256-s9JcUApkAa5V5AYT+4ZqlvsiB0b/P3rptTDHo160P3U=";
+    }'
+```
+```bash
+nix-prefetch --option extra-experimental-features flakes 'fetchurl {
+      url = "https://github.com/Mechanical-Advantage/AdvantageScope/releases/download/v4.1.1/advantagescope-linux-arm64-v4.1.1.AppImage";
+      hash = "sha256-MgPCiOv8Fpvlg8V8H+3Oe+IpyY6jwi6W49yLzwmSeKI=";
+    }'
+```
+```bash
+nix-prefetch --option extra-experimental-features flakes 'fetchurl {
+    url = "https://raw.githubusercontent.com/Mechanical-Advantage/AdvantageScope/v4.1.1/icons/window-icon.png";
+    hash = "sha256-gqcCqthqM2g4sylg9zictKwRggbaALQk9ln/NaFHxdY=";
+  }'
+```
