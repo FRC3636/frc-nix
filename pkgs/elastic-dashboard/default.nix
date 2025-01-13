@@ -7,13 +7,13 @@
 }:
 flutter.buildFlutterApplication rec {
   pname = "elastic-dashboard";
-  version = "2024.2.0";
+  version = "2025.0.2";
 
   src = fetchFromGitHub {
     owner = "Gold872";
     repo = pname;
     rev = "v${version}";
-    hash = "sha256-u8pqkaChSD01DBdbn43txIQBvfRQ8lLmeT7rbGdVJcE=";
+    hash = "sha256-O0WzEg8ttpUEh4YaJ0sCBNWo5MHyeF1xsDLh6/HAZRg=";
   };
 
   pubspecLock = lib.importJSON ./pubspec.lock.json;
