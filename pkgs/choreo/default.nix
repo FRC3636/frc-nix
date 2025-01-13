@@ -2,7 +2,7 @@
 
 let
   pname = "choreo";
-  version = "2024.2.1";
+  version = "2025.0.1";
 
   desktopItem = makeDesktopItem {
     type = "Application";
@@ -14,7 +14,7 @@ let
   };
 
   icon = fetchurl {
-    url = "https://raw.githubusercontent.com/SleipnirGroup/Choreo/v${version}/icon/icon.svg";
+    url = "https://raw.githubusercontent.com/SleipnirGroup/Choreo/v${version}/src-tauri/icons/icon.svg";
     hash = "sha256-HKCzFijS08MKwsMsfTW9ohxWDqyqhRpLhuBjwVWWKPE=";
   };
 in
@@ -23,7 +23,7 @@ appimageTools.wrapType2 {
 
   src = fetchurl {
     url = "https://github.com/SleipnirGroup/Choreo/releases/download/v${version}/Choreo-v${version}-Linux-x86_64.AppImage";
-    hash = "sha256-PMBmzLKLsCIbdZjsHUyFjBm7l2nuSGRztA+gB7BLNik=";
+    hash = "sha256-SYlB7dabz/jzF9uLnIeURvZlzlQe/pTyd5xwMDMrCDk=";
   };
 
   extraInstallCommands = ''
