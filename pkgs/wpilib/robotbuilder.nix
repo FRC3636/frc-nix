@@ -2,7 +2,7 @@
 
 stdenv.mkDerivation rec {
   pname = "robotbuilder";
-  version = "2024.3.1";
+  version = "2025.2.1";
 
   src = fetchurl {
     url = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/tools/RobotBuilder/${version}/RobotBuilder-${version}.jar";
