@@ -80,3 +80,7 @@ Add to your flake.nix:
 ## Binary Cache
 
 We use [Garnix](https://garnix.io) for CI, so you can follow the directions at [Garnix's docs](https://garnix.io/docs/caching) to download pre-built versions of frc-nix's packages.
+
+## Updating
+
+Hip Hip Hooray! A new wpilib release is out! Go straight to the [UPDATE.md](./UPDATE.md) file to see how to update the packages.
