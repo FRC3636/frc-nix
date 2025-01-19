@@ -1,4 +1,5 @@
-#!/usr/bin/env nu
+#! /usr/bin/env nix-shell
+#! nix-shell -i nu -p nushell
 
 def "main" [basePath: string] {
     let folder = (http get $"https://frcmaven.wpi.edu/artifactory/api/storage/($basePath)" | from json)

@@ -73,3 +73,19 @@ nix-prefetch --option extra-experimental-features flakes 'fetchurl {
     hash = "sha256-gqcCqthqM2g4sylg9zictKwRggbaALQk9ln/NaFHxdY=";
   }'
 ```
+
+# WPILIB
+
+This is the most complex one 🥲 Thankfully there is a script for it! In `scripts/fetch_wpilib_artifact_hashes.nu` there is a nushell script to fetch all the hashes for the wpilib artifacts.
+
+> "As for using the hash retriever script, the basePath parameter is the Artifactory repository path of the tool release in the WPILib maven. For example, SysId 2025.2.1 has the path "release/edu/wpi/first/tools/SysId/2025.2.1". It's essentially release/edu/wpi/first/tools/TOOL_NAME/WPILIB_VERSION, although it is possible that they could change this in the future." - [@max-niederman](https://github.com/max-niederman)
+
+Run the script with the wpilib artifact basePath as the argument.
+```bash
+./scripts/fetch_wpilib_artifact_hashes.nu "release/edu/wpi/first/tools/SysId/2025.2.1"
+```
+
+Alternatively, you can run the update hashes script without any args! It will output a list of the hashes for all the wpilib artifacts already formatted as they should be in each `pkgs/wpilib/xxxx.nix` file. Just copy and paste the output into the respective file.
+```bash
+nu scripts/update_hashes.nu
+```
