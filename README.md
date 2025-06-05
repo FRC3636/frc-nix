@@ -1,4 +1,7 @@
-# A NixOS Distribution for FRC
+# ⚠️ THIS IS NO LONGER MAINTAINED ⚠️
+# You can try https://github.com/frc4451/frc-nix instead.
+
+## A NixOS Distribution for FRC
 
 This repository contains Nix packages and NixOS modules for use in the FIRST Robotics Competition.
 
