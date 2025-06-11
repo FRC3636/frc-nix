@@ -8,12 +8,14 @@
 
   outputs = inputs @ { self, flake-utils, nixpkgs }:
     let
-      frcOverlay = final: prev: with final; {
-        advantagescope = callPackage ./pkgs/advantagescope { };
-        choreo = callPackage ./pkgs/choreo { };
-        elastic-dashboard = callPackage ./pkgs/elastic-dashboard { };
-        pathplanner = callPackage ./pkgs/pathplanner { };
-        wpilib = recurseIntoAttrs (callPackage ./pkgs/wpilib { });
+      frcOverlay = final: prev: {
+        advantagescope = final.callPackage ./pkgs/advantagescope { };
+        choreo = final.callPackage ./pkgs/choreo { };
+        elastic-dashboard = final.callPackage ./pkgs/elastic-dashboard { };
+        pathplanner = final.callPackage ./pkgs/pathplanner { };
+        wpilib = final.recurseIntoAttrs (final.callPackage ./pkgs/wpilib { });
+
+        vscode-extensions = prev.vscode-extensions // { wpilibsuite.vscode-wpilib = final.wpilib.vscode-wpilib; };
       };
 
       supportedSystems = [
@@ -55,7 +57,10 @@
                 robotbuilder
                 shuffleboard
                 smartdashboard
-                sysid;
+                sysid
+                vscode-wpilib
+                wpilib-utility
+                ;
 
               frc-nix-whitepaper =
                 pkgs.runCommandNoCC
